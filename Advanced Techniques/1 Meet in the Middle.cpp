@@ -1,3 +1,6 @@
+#ifndef LOCAL
+#pragma GCC optimize("O3")
+#endif
 #include <bits/stdc++.h>
 #define sz(n) (int)(n).size()
 #define dbg(x) cerr << #x << " = " << x << '\n';
@@ -5,8 +8,14 @@ using namespace std;
 
 using ll = int64_t;
 
+struct my_hash {
+    size_t operator()(const int x) const {
+        return x * x * 3 + x * 228 + 1337;
+    }
+};
+
 void solve() {
-    unordered_map<ll, ll> cnt;
+    unordered_map<ll, ll, my_hash> cnt;
     int n, targ;
     cin >> n >> targ;
     ll a[n];
@@ -16,15 +25,15 @@ void solve() {
         ll cur = 0;
         for (int i = 0; i < k; ++i) if (mask & (1 << i)) cur += a[i];
         if (cur <= targ)
-            cnt[cur]++;
+            ++cnt[cur];
     }
     int m = n - k;
     ll res = 0;
     for (int mask = 0; mask < (1 << m); ++mask) {
         ll cur = 0;
         for (int i = 0; i < m; ++i) if (mask & (1 << i)) cur += a[i + k];
-        if (cnt.count(targ - cur))
-            res += cnt[targ - cur];
+        auto it = cnt.find(targ - cur);
+        if (it != cnt.end()) res += it->second;
     }
     cout << res << '\n';
 }

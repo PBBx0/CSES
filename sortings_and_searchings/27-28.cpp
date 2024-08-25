@@ -13,7 +13,7 @@ void solve() {
         p[i + 1] = p[i] + a[i];
     }
     ll res = 0;
-    unordered_map<ll, ll> cnt;
+    map<ll, ll> cnt;
     for (auto el : p) {
         res += cnt[el - x];
         cnt[el]++;
