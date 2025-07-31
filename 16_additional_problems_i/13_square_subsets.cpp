@@ -20,10 +20,12 @@ const vector<int> order = []{
 vector<int> factorize(int x) {
     vector<int> cur;
     for (int t = 2; t * t <= x; ++t) {
+        int cnt = 0;
         while (x % t == 0) {
             x /= t;
-            if (cur.empty() || cur.back() != t) cur.emplace_back(t);
+            ++cnt;
         }
+        if (cnt & 1) cur.emplace_back(t);
     }
     if (x != 1) cur.emplace_back(x);
     return cur;
