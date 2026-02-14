@@ -1,0 +1,56 @@
+#ifndef LOCAL
+#pragma GCC optimize("O3")
+#endif
+#include <bits/stdc++.h>
+#define sz(n) (int)(n).size()
+#define all(x) (x).begin(), (x).end()
+#define rall(x) (x).rbegin(), (x).rend()
+#define endl '\n'
+using namespace std;
+using ll = int64_t;
+
+mt19937 rnd(chrono::high_resolution_clock::now().time_since_epoch().count());
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<int> a(n), b(n);
+    for (int& el : a) cin >> el, --el;
+    for (int& el : b) cin >> el, --el;
+    if (n == 2) {
+        cout << "IMPOSSIBLE\n";
+        return;
+    }
+    vector<int> ans(n);
+    iota(all(ans), 0);
+    do {
+        bool ok = true;
+        for (int i = 0; i < n; ++i) {
+            ok &= ans[i] != a[i];
+            ok &= ans[i] != b[i];
+        }
+        if (ok) {
+            for (int el : ans) cout << el + 1 << ' ';
+            cout << '\n';
+            return;
+        }
+        shuffle(all(ans), rnd);
+    } while (true);
+}
+
+int main() {
+#ifdef LOCAL
+    freopen("../stream.in", "r", stdin);
+    freopen("../stream.out", "w", stdout);
+    auto start = clock();
+#else
+    cin.tie(nullptr)->sync_with_stdio(false);
+#endif
+    int tt = 1;
+//    cin >> tt;
+    while (tt--) solve();
+#ifdef LOCAL
+    cerr << fixed << setprecision(3) << "TIME: " << 1e3 * (clock() - start) / CLOCKS_PER_SEC << " ms" << endl;
+#endif
+    return 0;
+}
